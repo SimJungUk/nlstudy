@@ -14,3 +14,6 @@ const server = http.createServer((req,res)=>{
 }).listen(3000, ()=>{
     console.log('server on!');
 })
+
+
+//수정수정
