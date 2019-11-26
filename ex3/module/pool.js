@@ -1,10 +1,11 @@
-const pool = require('../config/dbConfig');
+const poolPromise = require('../config/dbConfig');
+
 
 module.exports = { // 두 개의 메소드 module화
     queryParam_None: async(...args) => { // (...args) expression은 arrow function 사
         const query = args[0];
         let result;
-
+        const pool = await poolPromise;
         try {
             var connection = await pool.getConnection(); // connection을 pool에서 하나 가져온다.
             result = await connection.query(query) || null; // query문의 결과 || null 값이 result에 들어간다.
@@ -21,7 +22,7 @@ module.exports = { // 두 개의 메소드 module화
         const query = args[0];
         const value = args[1]; // array
         let result;
-
+        const pool = await poolPromise;
         try {
             var connection = await pool.getConnection(); // connection을 pool에서 하나 가져온다.
             result = await connection.query(query, value) || null; // 두 번째 parameter에 배열 => query문에 들어갈 runtime 시 결정될 value
@@ -36,7 +37,7 @@ module.exports = { // 두 개의 메소드 module화
     },
     Transaction: async(...args) => {
         let result = "Success";
-
+        const pool = await poolPromise;
         try {
             var connection = await pool.getConnection();
             await connection.beginTransaction();
